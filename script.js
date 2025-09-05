@@ -92,11 +92,23 @@ class SnakeGame {
             this.gameSpeed = this.baseGameSpeed;
         });
         
-        // 虚拟键盘事件
-        document.getElementById('upBtn').addEventListener('click', () => this.changeDirection(0, -1));
-        document.getElementById('downBtn').addEventListener('click', () => this.changeDirection(0, 1));
-        document.getElementById('leftBtn').addEventListener('click', () => this.changeDirection(-1, 0));
-        document.getElementById('rightBtn').addEventListener('click', () => this.changeDirection(1, 0));
+        // 虚拟键盘事件 - 同时支持点击和触摸
+        const addButtonEvents = (id, dx, dy) => {
+            const btn = document.getElementById(id);
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.changeDirection(dx, dy);
+            });
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.changeDirection(dx, dy);
+            });
+        };
+        
+        addButtonEvents('upBtn', 0, -1);
+        addButtonEvents('downBtn', 0, 1);
+        addButtonEvents('leftBtn', -1, 0);
+        addButtonEvents('rightBtn', 1, 0);
     }
     
     startGame() {
