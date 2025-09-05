@@ -88,8 +88,109 @@ header h1 {
     color: #4a5568;
 }
 
+.speed-control {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.speed-control label {
+    font-weight: bold;
+    color: #4a5568;
+    font-size: 1.1em;
+}
+
+.speed-control select {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.speed-control select:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.speed-control select option {
+    background: #4a5568;
+    color: white;
+}
+
 .controls {
     margin: 20px 0;
+}
+
+.virtual-keyboard {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.keyboard-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.keyboard-spacer {
+    width: 50px;
+    height: 50px;
+}
+
+.keyboard-center {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.direction-btn {
+    background: linear-gradient(45deg, #4299e1, #3182ce);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.direction-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+}
+
+.direction-btn:active {
+    transform: translateY(0);
+    background: linear-gradient(45deg, #3182ce, #2c5282);
+}
+
+.direction-btn:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 button {
@@ -182,6 +283,16 @@ button:disabled {
         gap: 10px;
     }
     
+    .speed-control {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .speed-control select {
+        width: 100%;
+        max-width: 200px;
+    }
+    
     .controls {
         display: flex;
         flex-wrap: wrap;
@@ -193,6 +304,30 @@ button:disabled {
         margin: 0;
         flex: 1;
         min-width: 100px;
+    }
+    
+    .virtual-keyboard {
+        margin: 15px 0;
+    }
+    
+    .direction-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8em;
+    }
+    
+    .keyboard-row {
+        gap: 15px;
+    }
+    
+    .keyboard-spacer {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .keyboard-center {
+        width: 60px;
+        height: 60px;
     }
 }
 

@@ -25,6 +25,34 @@
             </div>
         </div>
         
+        <div class="virtual-keyboard">
+            <div class="keyboard-row">
+                <div class="keyboard-spacer"></div>
+                <button class="direction-btn" id="upBtn">↑</button>
+                <div class="keyboard-spacer"></div>
+            </div>
+            <div class="keyboard-row">
+                <button class="direction-btn" id="leftBtn">←</button>
+                <div class="keyboard-center"></div>
+                <button class="direction-btn" id="rightBtn">→</button>
+            </div>
+            <div class="keyboard-row">
+                <div class="keyboard-spacer"></div>
+                <button class="direction-btn" id="downBtn">↓</button>
+                <div class="keyboard-spacer"></div>
+            </div>
+        </div>
+        
+        <div class="speed-control">
+            <label for="speedSelect">游戏速度:</label>
+            <select id="speedSelect">
+                <option value="200">慢速</option>
+                <option value="150" selected>中速</option>
+                <option value="100">快速</option>
+                <option value="80">极速</option>
+            </select>
+        </div>
+        
         <div class="controls">
             <button id="startBtn">开始游戏</button>
             <button id="pauseBtn">暂停</button>

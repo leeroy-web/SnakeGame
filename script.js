@@ -12,7 +12,9 @@ class SnakeGame {
         
         // 蛇的初始状态
         this.snake = [
-            {x: 10, y: 10}
+            {x: 10, y: 10},
+            {x: 9, y: 10},
+            {x: 8, y: 10}
         ];
         this.dx = 0;
         this.dy = 0;
@@ -28,7 +30,8 @@ class SnakeGame {
         this.highScore = localStorage.getItem('snakeHighScore') || 0;
         
         // 游戏速度
-        this.gameSpeed = 150;
+        this.baseGameSpeed = 150;
+        this.gameSpeed = this.baseGameSpeed;
         
         this.initializeGame();
         this.bindEvents();
@@ -39,6 +42,19 @@ class SnakeGame {
         this.drawGame();
     }
     
+    changeDirection(newDx, newDy) {
+        if (!this.gameRunning || this.gamePaused) return;
+        
+        // 防止反向移动
+        if (newDx !== 0 && this.dx !== -newDx) {
+            this.dx = newDx;
+            this.dy = 0;
+        } else if (newDy !== 0 && this.dy !== -newDy) {
+            this.dx = 0;
+            this.dy = newDy;
+        }
+    }
+    
     bindEvents() {
         // 键盘控制
         document.addEventListener('keydown', (e) => {
@@ -46,28 +62,16 @@ class SnakeGame {
             
             switch(e.key) {
                 case 'ArrowUp':
-                    if (this.dy !== 1) {
-                        this.dx = 0;
-                        this.dy = -1;
-                    }
+                    this.changeDirection(0, -1);
                     break;
                 case 'ArrowDown':
-                    if (this.dy !== -1) {
-                        this.dx = 0;
-                        this.dy = 1;
-                    }
+                    this.changeDirection(0, 1);
                     break;
                 case 'ArrowLeft':
-                    if (this.dx !== 1) {
-                        this.dx = -1;
-                        this.dy = 0;
-                    }
+                    this.changeDirection(-1, 0);
                     break;
                 case 'ArrowRight':
-                    if (this.dx !== -1) {
-                        this.dx = 1;
-                        this.dy = 0;
-                    }
+                    this.changeDirection(1, 0);
                     break;
                 case ' ':
                     e.preventDefault();
@@ -81,6 +85,18 @@ class SnakeGame {
         document.getElementById('pauseBtn').addEventListener('click', () => this.togglePause());
         document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
         document.getElementById('restartBtn').addEventListener('click', () => this.restartGame());
+        
+        // 速度控制事件
+        document.getElementById('speedSelect').addEventListener('change', (e) => {
+            this.baseGameSpeed = parseInt(e.target.value);
+            this.gameSpeed = this.baseGameSpeed;
+        });
+        
+        // 虚拟键盘事件
+        document.getElementById('upBtn').addEventListener('click', () => this.changeDirection(0, -1));
+        document.getElementById('downBtn').addEventListener('click', () => this.changeDirection(0, 1));
+        document.getElementById('leftBtn').addEventListener('click', () => this.changeDirection(-1, 0));
+        document.getElementById('rightBtn').addEventListener('click', () => this.changeDirection(1, 0));
     }
     
     startGame() {
@@ -115,12 +131,19 @@ class SnakeGame {
         this.gameOver = false;
         
         // 重置蛇的位置
-        this.snake = [{x: 10, y: 10}];
+        this.snake = [
+            {x: 10, y: 10},
+            {x: 9, y: 10},
+            {x: 8, y: 10}
+        ];
         this.dx = 0;
         this.dy = 0;
         
         // 重置分数
         this.score = 0;
+        
+        // 重置游戏速度
+        this.gameSpeed = this.baseGameSpeed;
         
         // 重新生成食物
         this.generateFood();
@@ -174,16 +197,11 @@ class SnakeGame {
             this.generateFood();
             this.updateDisplay();
             
-            // 增加游戏速度
-            if (this.gameSpeed > 80) {
-                this.gameSpeed -= 2;
+            // 增加游戏速度（基于基础速度的80%作为最快速度）
+            const minSpeed = Math.max(this.baseGameSpeed * 0.5, 50);
+            if (this.gameSpeed > minSpeed) {
+                this.gameSpeed -= Math.max(1, this.baseGameSpeed * 0.02);
             }
-            
-            // 添加脉冲动画效果
-            this.canvas.classList.add('pulse');
-            setTimeout(() => {
-                this.canvas.classList.remove('pulse');
-            }, 500);
         } else {
             this.snake.pop();
         }
